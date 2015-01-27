@@ -89,6 +89,7 @@ if not exist ccsetup.zip echo 未找到ccsetup.zip，请下载。 &echo.&pause &goto Mai
 Tasklist|Find /i "CCleaner.exe">nul&&(taskkill /im CCleaner.exe /f)
 Tasklist|Find /i "CCleaner64.exe">nul&&(taskkill /im CCleaner64.exe /f)
 7za_x86.exe x -y ccsetup.zip -o"%PROGRAMFILES%\CCleaner"
+if not exist "%PROGRAMFILES%\CCleaner\ccleaner.ini" echo off>>"%PROGRAMFILES%\CCleaner\ccleaner.ini" &echo on
 if exist ccleaner.ini copy /y ccleaner.ini "%PROGRAMFILES%\CCleaner"
 mshta VBScript:Execute("Set a=CreateObject(""WScript.Shell""):Set b=a.CreateShortcut(a.SpecialFolders(""Desktop"") & ""\CCleaner.lnk""):b.TargetPath=""%PROGRAMFILES%\CCleaner\CCleaner.exe"":b.WorkingDirectory=""%PROGRAMFILES%\CCleaner"":b.Save:close")
 echo.&echo    安装完成，按任意键退出。
