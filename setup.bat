@@ -49,6 +49,9 @@ echo     2)备份：CCleaner 配置文件
 echo     3)安装：释放压缩档案
 echo.&echo.
 echo     4)下载并安装：CCleaner-Portable
+echo.
+echo     5)删除已下载的安装文件（避免不同文件错误地断点续传）
+echo.
 echo.&echo.
 echo     致谢及声明：
 echo     1)调用了32位的 7-Zip 命令行版本用于解压缩；
@@ -65,14 +68,15 @@ if /I "%ST%"=="1" goto Download
 if /I "%ST%"=="2" goto Backup
 if /I "%ST%"=="3" goto Setup
 if /I "%ST%"=="4" goto Download-Setup
+if /I "%ST%"=="5" goto Delete
 echo    无效选择，按任意键退出！
 pause >nul
 exit
 
 :Download
-rem if exist ccsetup.zip del ccsetup.zip
+if not exist ccsetup.zip.aria2 if exist ccsetup.zip del ccsetup.zip
 rem netstat -an|find "LISTENING"|find ":8087" && set HTTP_PROXY=127.0.0.1:8087
-%aria2c% -c -s16 -x16 -k1m --enable-mmap --file-allocation=falloc --disk-cache=64M -o ccsetup.zip "http://www.piriform.com/ccleaner/download/portable/downloadfile"
+%aria2c% -c -s16 -x16 -k1m --remote-time=true --enable-mmap --file-allocation=falloc --disk-cache=64M -o ccsetup.zip "http://www.piriform.com/ccleaner/download/portable/downloadfile"
 echo.&echo    下载完成，按任意键返回。
 pause >nul &goto Main
 
@@ -82,7 +86,7 @@ echo.&echo    备份完成，按任意键返回。
 pause >nul &goto Main
 
 :Download-Setup
-%aria2c% -c -s16 -x16 -k1m --enable-mmap --file-allocation=falloc --disk-cache=64M -o ccsetup.zip "http://www.piriform.com/ccleaner/download/portable/downloadfile"
+%aria2c% -c -s16 -x16 -k1m --remote-time=true --enable-mmap --file-allocation=falloc --disk-cache=64M -o ccsetup.zip "http://www.piriform.com/ccleaner/download/portable/downloadfile"
 
 :Setup
 if not exist ccsetup.zip echo 未找到ccsetup.zip，请下载。 &echo.&pause &goto Main
@@ -93,4 +97,9 @@ if not exist "%PROGRAMFILES%\CCleaner\ccleaner.ini" echo off>>"%PROGRAMFILES%\CC
 if exist ccleaner.ini copy /y ccleaner.ini "%PROGRAMFILES%\CCleaner"
 mshta VBScript:Execute("Set a=CreateObject(""WScript.Shell""):Set b=a.CreateShortcut(a.SpecialFolders(""Desktop"") & ""\CCleaner.lnk""):b.TargetPath=""%PROGRAMFILES%\CCleaner\CCleaner.exe"":b.WorkingDirectory=""%PROGRAMFILES%\CCleaner"":b.Save:close")
 echo.&echo    安装完成，按任意键退出。
-pause >nul
+pause >nul &exit
+
+:Delete
+if exist ccsetup* del ccsetup*
+echo.&echo    处理完成，按任意键返回。
+pause >nul &goto Main

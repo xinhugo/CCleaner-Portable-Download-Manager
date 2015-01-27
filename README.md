@@ -10,7 +10,7 @@ A downloader based on batch and Aria2.
 * 备份 CCleaner 配置文件
 
 ### Feature
-* 多线程下载，适应中国（对外）网络速度。
+* 多线程下载、断点续传，适应中国（对外）网络。
 * 解压缩并创建桌面快捷方式。
 
 ### Usage
