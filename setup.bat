@@ -32,10 +32,10 @@ Pause>nul
 exit
 
 :Files check
-if not exist 7za_x86.exe  echo.&echo.&echo.&echo.&echo.&echo.&echo                                    缺少 7za_x86.exe，请重新下载。&echo.&echo.&echo.&echo.&echo
+if not exist 7za_x86.exe  echo.&echo.&echo.&echo.&echo.&echo.&echo                                    缺少 7za_x86.exe，请重新下载。&echo.&echo.&echo.&echo.&echo                                         按任意键退出&pause>nul& exit
 if exist "aria2\aria2c.exe" set aria2c="aria2\aria2c.exe" &goto Main
 if exist "D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe" set aria2c="D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe"
-if not exist "aria2\aria2c.exe" if not exist "D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe"  echo.&echo.&echo.&echo.&echo.&echo.&echo                                    缺少 aria2，请重新下载。&echo.&echo.&echo.&echo.&echo
+if not exist "aria2\aria2c.exe" if not exist "D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe"  echo.&echo.&echo.&echo.&echo.&echo.&echo                                    缺少 aria2，请重新下载。&echo.&echo.&echo.&echo.&echo                                         按任意键退出&pause>nul& exit
 
 :Main
 cls
