@@ -32,10 +32,13 @@ Pause>nul
 exit
 
 :Files check
-if not exist 7za_x86.exe  echo.&echo.&echo.&echo.&echo.&echo.&echo                                    缺少 7za_x86.exe，请重新下载。&echo.&echo.&echo.&echo.&echo                                         按任意键退出&pause>nul& exit
-if exist "aria2\aria2c.exe" set aria2c="aria2\aria2c.exe" &goto Main
-if exist "D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe" set aria2c="D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe"
-if not exist "aria2\aria2c.exe" if not exist "D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe"  echo.&echo.&echo.&echo.&echo.&echo.&echo                                    缺少 aria2，请重新下载。&echo.&echo.&echo.&echo.&echo                                         按任意键退出&pause>nul& exit
+if exist "Tools\7za_x86.exe" Set sza="Tools\7za_x86.exe"
+if not exist %sza%  echo.&echo.&echo.&echo.&echo.&echo.&echo                                    缺少 %sza%，请重新下载。&echo.&echo.&echo.&echo.&echo                                         按任意键退出&pause>nul& exit
+if exist Tools\aria2.7z if exist Tools\aria2 rd /s /q Tools\aria2 &%sza% x -y Tools\aria2.7z
+if exist Tools\aria2.7z %sza% x -y Tools\aria2.7z &del /q Tools\aria2.7z
+if exist "Tools\aria2\aria2c.exe" Set aria2c="Tools\aria2\aria2c.exe" &goto Main
+if exist "D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe" Set aria2c="D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe"
+if not exist "Tools\aria2\aria2c.exe" if not exist "D:\软件库\绿色工具\网络工具\上传下载\aria2\x64\aria2c.exe"  echo.&echo.&echo.&echo.&echo.&echo.&echo                                    缺少 aria2，请重新下载。&echo.&echo.&echo.&echo.&echo                                         按任意键退出&pause>nul& exit
 
 :Main
 cls
@@ -58,7 +61,7 @@ echo     1)调用了32位的 7-Zip 命令行版本用于解压缩；
 echo     2)7-Zip 发布于 GNU LGPL 协议，www.7-zip.org 的能够找到其源代码；
 echo     3)调用了 aria2 从 HTTP 服务器下载数据。
 echo.&echo.
-echo     版本：2015/1/27；开发：Hugo；联系：hugox.chan@gmail.com
+echo     版本：2015/3/17；开发：Hugo；联系：hugox.chan@gmail.com
 echo.
 echo ---------------------------------------------------------------------------
 echo.
@@ -92,7 +95,7 @@ pause >nul &goto Main
 if not exist ccsetup.zip echo 未找到ccsetup.zip，请下载。 &echo.&pause &goto Main
 Tasklist|Find /i "CCleaner.exe">nul&&(taskkill /im CCleaner.exe /f)
 Tasklist|Find /i "CCleaner64.exe">nul&&(taskkill /im CCleaner64.exe /f)
-7za_x86.exe x -y ccsetup.zip -o"%PROGRAMFILES%\CCleaner"
+%sza% x -y ccsetup.zip -o"%PROGRAMFILES%\CCleaner"
 if not exist "%PROGRAMFILES%\CCleaner\ccleaner.ini" echo off>>"%PROGRAMFILES%\CCleaner\ccleaner.ini" &echo on
 if exist ccleaner.ini copy /y ccleaner.ini "%PROGRAMFILES%\CCleaner"
 mshta VBScript:Execute("Set a=CreateObject(""WScript.Shell""):Set b=a.CreateShortcut(a.SpecialFolders(""Desktop"") & ""\CCleaner.lnk""):b.TargetPath=""%PROGRAMFILES%\CCleaner\CCleaner.exe"":b.WorkingDirectory=""%PROGRAMFILES%\CCleaner"":b.Save:close")
