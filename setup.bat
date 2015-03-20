@@ -4,14 +4,11 @@ PUSHD %~dp0
 cd /d "%~dp0"
 
 :Permission check
-if "%PROCESSOR_ARCHITECTURE%" == "AMD64" (set SystemPath = %SystemRoot%\SysWOW64) else (set SystemPath = %SystemRoot%\system32)
-::rd "%SystemPath%\Test_Permissions" > nul 2 > nul
-::md "%SystemPath%\Test_Permissions" 2 > nul || (echo Require Administrator Permission. && pause > nul && Exit)
-::rd "%SystemPath%\Test_Permissions" > nul 2 > nul
-del /f /q %SystemPath%\TestPermission.log
-echo "Permission check." >> %SystemPath%\TestPermission.log
-if not exist %SystemPath%\TestPermission.log (echo Require Administrator Permission. && pause > nul && Exit)
-del /f /q %SystemPath%\TestPermission.log
+If "%PROCESSOR_ARCHITECTURE%"=="AMD64" (Set b=%SystemRoot%\SysWOW64) Else (Set b=%SystemRoot%\system32)
+Rd "%b%\test_permissions" >nul 2>nul
+Md "%b%\test_permissions" 2>nul||(Echo 请使用右键，以管理员身份运行&&Pause >nul&&Exit)
+Rd "%b%\test_permissions" >nul 2>nul
+cls
 
 :Ver
 Ver|Find /I "5.1" > nul 2>nul 2>nul
@@ -61,7 +58,7 @@ echo     1)调用了32位的 7-Zip 命令行版本用于解压缩；
 echo     2)7-Zip 发布于 GNU LGPL 协议，www.7-zip.org 的能够找到其源代码；
 echo     3)调用了 aria2 从 HTTP 服务器下载数据。
 echo.&echo.
-echo     版本：2015/3/17；开发：Hugo；联系：hugox.chan@gmail.com
+echo     版本：2015/3/20；开发：Hugo；联系：hugox.chan@gmail.com
 echo.
 echo ---------------------------------------------------------------------------
 echo.
