@@ -3,12 +3,29 @@ title CCleaner Portable Download Manager
 PUSHD %~dp0
 cd /d "%~dp0"
 
-:Permission check
-If "%PROCESSOR_ARCHITECTURE%"=="AMD64" (Set b=%SystemRoot%\SysWOW64) Else (Set b=%SystemRoot%\system32)
-Rd "%b%\test_permissions" >nul 2>nul
-Md "%b%\test_permissions" 2>nul||(Echo 请使用右键，以管理员身份运行&&Pause >nul&&Exit)
-Rd "%b%\test_permissions" >nul 2>nul
-cls
+:: BatchGotAdmin
+:-------------------------------------
+REM  --> Check for permissions
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+
+REM --> If error flag set, we do not have admin.
+if '%errorlevel%' NEQ '0' (
+    echo Requesting administrative privileges...
+    goto UACPrompt
+) else ( goto gotAdmin )
+
+:UACPrompt
+    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+
+    "%temp%\getadmin.vbs"
+    exit /B
+
+:gotAdmin
+    if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
+    pushd "%CD%"
+    CD /D "%~dp0"
+:--------------------------------------
 
 :Ver
 Ver|Find /I "5.1" > nul 2>nul 2>nul
@@ -46,7 +63,7 @@ echo     将调用 %aria2c% 下载。
 echo.&echo.
 echo     1)下载：CCleaner-Portable
 echo     2)备份：CCleaner 配置文件
-echo     3)安装：释放压缩档案
+echo     3)安装：释放压缩档案到 %PROGRAMFILES%\CCleaner
 echo.&echo.
 echo     4)下载并安装：CCleaner-Portable
 echo.
@@ -58,7 +75,7 @@ echo     1)调用了32位的 7-Zip 命令行版本用于解压缩；
 echo     2)7-Zip 发布于 GNU LGPL 协议，www.7-zip.org 的能够找到其源代码；
 echo     3)调用了 aria2 从 HTTP 服务器下载数据。
 echo.&echo.
-echo     版本：2015/3/20；开发：Hugo；联系：hugox.chan@gmail.com
+echo     版本：2015/3/26；开发：Hugo；联系：hugox.chan@gmail.com
 echo.
 echo ---------------------------------------------------------------------------
 echo.
