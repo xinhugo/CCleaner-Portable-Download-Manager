@@ -3,7 +3,9 @@
 A downloader based on batch and Aria2.
 
 ### Beta
-本分支 Beta 为 CCleaner Portable Download Manager 项目的**测试**版本，可能存在未知问题，欢迎反馈。**源代码用记事本即可查阅。**
+本分支 Beta 为 CCleaner Portable Download Manager 项目的**测试**分支，可能存在未知问题，欢迎反馈。**源代码用记事本即可查阅。**
+
+最新发行版：https://github.com/xinhugo/CCleaner-Portable-Download-Manager/releases/latest
 
 ### Summary
 * 下载/安装 CCleaner Portable
